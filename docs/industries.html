@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>NML documentation</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" title="Standard Style" type="text/css" href="nml.css">
+</head>
+<body>
+
+<h1><a name="industries">Industries</a></h1>
+
+<h2><a name="industries-vars">Industry variables</a></h2>
+<table class="t">
+<tr><th>name</th><th>value range</th><th>comment</th></tr>
+<tr><td>waiting_cargo_1</td><td>0..65535</td><td>If IND_CBF_PROD_CB_CARGO_ARRIVE or IND_CBF_PROD_CB_256_TICKS are set in the callback_flags property, this variable will contain the amount of the first cargo type awaiting to be processed.</td></tr>
+<tr><td>waiting_cargo_2</td><td>0..65535</td><td>If IND_CBF_PROD_CB_CARGO_ARRIVE or IND_CBF_PROD_CB_256_TICKS are set in the callback_flags property, this variable will contain the amount of the second cargo type awaiting to be processed.</td></tr>
+<tr><td>waiting_cargo_3</td><td>0..65535</td><td>If IND_CBF_PROD_CB_CARGO_ARRIVE or IND_CBF_PROD_CB_256_TICKS are set in the callback_flags property, this variable will contain the amount of the third cargo type awaiting to be processed.</td></tr>
+<tr><td>produced_last_month_1</td><td>0..65535</td><td>The amount of 'output cargo type 1' that was produced last month.</td></tr>
+<tr><td>produced_last_month_2</td><td>0..65535</td><td>The amount of 'output cargo type 2' that was produced last month.</td></tr>
+<tr><td>water_distance</td><td>Distance to the tile</td><td>If the industry is built on water, this variable gives the distance of the closest dry land tile, otherwise it gives the distance of the closest water tile.</td></tr>
+<tr><td>layout_num</td><td>1..255</td><td>Number of the layout being used by the industry.</td></tr>
+<tr><td>company_type</td><td>PLAYERTYPE_XX</td><td>PLAYERTYPE_HUMAN, PLAYERTYPE_AI, PLAYERTYPE_HUMAN_IN_AI (human managing AI company) or PLAYERTYPE_AI_IN_HUMAN (AI managing human company). OpenTTD only uses PLAYERTYPE_HUMAN and PLAYERTYPE_AI. If you cheat yourself to be part of an AI company OpenTTD will still report PLAYERTYPE_AI for the company with yourself and the AI and it'll report PLAYERTYPE_HUMAN for the now uncontrolled company.</td></tr>
+<tr><td>company_colour1</td><td>0..15</td><td>Index into company first colour.</td></tr>
+<tr><td>company_colour2</td><td>0..15</td><td>Index into company second colour. It's the same as company_colour1, if no second company colour is chosen.</td></tr>
+<tr><td>colour</td><td>0..15</td><td>Random colour for this industry.</td></tr>
+<tr><td>build_date</td><td>0..1826212865</td><td>Date of the industry foundation in days since year 0.</td></tr>
+<tr><td>founder</td><td>0..16</td><td>Company number of the industry founder. It will be 16 (0x10) if the industry was generated randomly. TTDPatch only supports up to 8 companies (0..7).</td></tr>
+<tr><td>build_type</td><td>BUILDTYPE_XX</td><td>BUILDTYPE_UNKNOWN (if created in an old version or with newindustries disabled), BUILDTYPE_GAMEPLAY (if founded or created by the in-game random industry generator), BUILDTYPE_GENERATION (if created during random map generation) or BUILDTYPE_EDITOR (if created with the scenario editor).</td></tr>
+</table><br>
+Variables that require some parameters.
+<table class="t">
+<tr><th>name</th><th>arguments</th><th>comment</th></tr>
+<tr><td>industry_count</td><td>industry_type, grfid&nbsp;=&nbsp;-1</td><td>The value of this variable is the number
+of industries of a given type that are currently on the map. industry_type is either the ID of an
+industry. GRFid is the grf in which the industry was defined. The default value is -1, which means
+current newgrf. A grfid of 0 lets you check the number of default industries of a given type.<br/>
+<i>Warning: using this variable trashes the contents of temporary storage register 0x100</i></td></tr>
+<tr><td>industry_distance</td><td>industry_type, grfid&nbsp;=&nbsp;-1</td><td>The value of this variable is the
+manhattan distance the closest instance of the given industry or 0xFFFF if not applicable. See
+industry_count for a description of the parameters.<br/>
+<i>Warning: using this variable trashes the contents of temporary storage register 0x100.</i></td></tr>
+<tr><td>industry_layout_count / industry_layout_distance</td><td>industry_type, layout, grfid&nbsp;=&nbsp;-1.</td>
+<td>See industry_count / industry_distance for description of industry_type, grfid and return value. The
+results are filtered to industries that have the given layout number.<br/>
+<i>Warning: using this variable trashes the contents of temporary storage registers 0x100 and 0x101.</i></td></tr>
+<tr><td>industry_town_count</td><td>industry_type, grfid&nbsp;=&nbsp;-1.</td>
+<td>See industry_count / industry_distance for description of industry_type, grfid and return value. The
+results are filtered to industries that have the same town than the current industry.<br/>
+<i>Warning: using this variable trashes the contents of temporary storage registers 0x100 and 0x101.</i></td></tr>
+</table>
+
+<h2><a name="industrytiles-vars">Industry tile variables</a></h2>
+<table class="t">
+<tr><th>name</th><th>value range</th><th>comment</th></tr>
+<tr><td>construction_state</td><td>0..3</td><td>Current construction state of the industry tile.</td></tr>
+<tr><td>terrain_type</td><td>TILETYPE_XX</td><td>TILETYPE_NORMAL, TILETYPE_DESERT, TILETYPE_RAIN_FOREST, TILETYPE_SNOW</td></tr>
+<tr><td>town_zone</td><td><a href="refs.html#refs-town-zones">town zone</a></td><td>The town zone of the current tile.</td></tr>
+<tr><td>relative_pos</td><td></td><td></td></tr>
+<tr><td>animation_frame</td><td>0..255</td><td>Current animation frame.</td></tr>
+</table><br>
+Variables that require a signed x,y offset. The offset is relative to the current tile. Offset 0,0 means the current tile.
+<table class="t">
+<tr><th>name</th><th>value range</th><th>comment</th></tr>
+<tr><td>nearby_tile_slope</td><td>Which corners are raised on the given tile.</td><td>
+Bit 0: west corner is above the lowest corner.<br>
+Bit 1: south corner is above the lowest corner.<br>
+Bit 2: east corner is above the lowest corner.<br>
+Bit 3: north corner is above the lowest corner.<br>
+Bit 4: this tile is a steep slope (the corner opposite to the lowest corner is 2 units higher).<br>
+See <a href="refs.html#refs-slopes">tile slopes</a> for an illustration
+</td></tr>
+<tr><td>nearby_tile_is_same_industry</td><td>1 if the tile is part of the same industry, 0 otherwise</td><td></td></tr>
+<tr><td>nearby_tile_is_water</td><td>1 if the tile is water, 0 otherwise</td><td></td></tr>
+<tr><td>nearby_tile_terrain_type</td><td>TILETYPE_XX</td><td>TILETYPE_NORMAL, TILETYPE_DESERT, TILETYPE_RAIN_FOREST, TILETYPE_SNOW</td></tr>
+<tr><td>nearby_tile_height</td><td>0..120</td><td>The height of the lowest corner of the given tile.</td></tr>
+<tr><td>nearby_tile_class</td><td><a href="refs.html#refs-tile-classes">Tile class</a></td><td></td></tr>
+<tr><td>nearby_tile_animation_frame</td><td>0..255</td><td>Animation frame of the given tile</td></tr>
+<tr><td>nearby_tile_industrytile_id</td><td>0x00aa, 0xFFbb, 0xFFFE or 0xFFFF</td><td>
+0x00aa: The tile is an industry tile that is part of this GRF, the tile id is aa.<br>
+0xFFbb: The tile is an original industry tile with id bb.<br>
+0xFFFE: The tile is an industry tile defined in another GRF.<br>
+0xFFFF: The tile is not an industry tile or it belongs to another GRF.
+</td></tr>
+</table>
+
+<h2><a name="industrytiles-property">Industry tile properties</a></h2>
+<table class="t">
+<tr><th>property</th><th>value range</th><th>comment</th></tr>
+<tr><td>substitute</td><td><a href="refs.html#refs-default-industrytiles">0..174</a></td><td>Number of the default industry tile that replaces this one, if this industry tile is not available for some reason.
+This property <em>must</em> be set first, before any other properties or graphics. All properties of the old type are copied to your new house.
+<tr><td>override</td><td><a href="refs.html#refs-default-industrytiles">0..174</a></td><td>id of the default industry tile which this industry tile replaces. This will cause your industry tile to be placed instead of the default industry tile.
+This is ignored, if the default industry tile has already been overridden. You can define this property multiple times
+<tr><td>accepted_cargos</td><td>Array with up to 3 [cargo_id, amount]-pairs.</td><td>The cargos that are accepted by this tile. CargoID is a cargo type from 
+your cargo translation table, amount is the acceptance of the given cargo in 1/8 units.<br>
+Example: to make a tile accept both COAL and IORE you could use this: <code>accepted_cargos: [[COAL, 8], [IORE, 8]];</code><br>
+Example: for a tile that doesn't any cargos at all you'd use: <code>accepted_cargos: [];</code></td></tr>
+<tr><td>land_shape_flags</td><td>bitmask(<a href="#land-shape-flags">Land shape flags</a>)</td><td></td></tr>
+<tr><td>callback_flags</td><td>bitmask(INDTILE_CBF_XXX, INDTILE_CBF_YYY)</td><td>XXX = ANIM_NEXT_FRAME | ANIM_SPEED | CARGO_AMOUNT_ACCEPT
+| CARGO_TYPE_ACCEPT | SLOPE_IS_SUITABLE | FOUNDATIONS | AUTOSLOPE</td></tr>
+<tr><td>animation_info</td><td>Array [ANIMATION_XXX, frame-count]</td><td>XXX = [LOOPING | NON_LOOPING], 1..253 frames</td></tr>
+<tr><td>animation_speed</td><td>0..16</td><td>Speed of animation, see <a href="refs.html#refs-animation-speed-values">animation speed table</a> for the meaning of the values.</td></tr>
+<tr><td>animation_triggers</td><td>bitmask(<a href="#industrytiles-animation-control">Animation control callback triggers</a>)</td><td>Triggers which control whether the animatin is started or stopped</td></tr>
+<tr><td>special_flags</td><td>0..1</td><td>Set to 1 if INDTILE_CB_ANIM_NEXT_FRAME needs random bits</td></tr>
+</table>
+
+<h3><a name="land-shape-flags">Land shape flags</a></h3>
+<table class="t">
+<tr><th>Flag</th><th>Meaning</th></tr>
+<tr><td>LSF_CANNOT_LOWER_NW_EDGE</td><td>North-west edge cannot be lowered</td></tr>
+<tr><td>LSF_CANNOT_LOWER_NE_EDGE</td><td>North-east edge cannot be lowered</td></tr>
+<tr><td>LSF_CANNOT_LOWER_SW_EDGE</td><td>South-west edge cannot be lowered</td></tr>
+<tr><td>LSF_CANNOT_LOWER_SE_EDGE</td><td>South-east edge cannot be lowered</td></tr>
+<tr><td>LSF_ONLY_ON_FLAT_LAND</td><td>This tile can only be built on flat land</td></tr>
+<tr><td>LSF_ALLOW_ON_WATER</td><td>The land/water check is disabled for this tile so it can be built on water. If you need
+more control over this use callback 0x2F.</td></tr>
+</table>
+
+<h3><a name="industrytiles-callbacks">Callbacks</a></h3>
+<table class="t">
+<tr><th>Callback</th><th>Values<th>Meaning</th></tr>
+<tr><td>INDTILE_CB_ANIM_STARTSTOP</td><td>animation frame or CB_RESULT_XXX<td>Called by a trigger. It decides upon the next animation frame.
+Special values: XXX=[STOP_ANIMATION | NEXT_FRAME | DO_NOTHING]</td></tr>
+<tr><td>INDTILE_CB_ANIM_NEXT_FRAME</td><td>animation frame or CB_RESULT_XXX<td>Called each animation frame. It decides upon the next animation frame.
+Special values: XXX=[STOP_ANIMATION | NEXT_FRAME]</td></tr>
+<tr><td>INDTILE_CB_ANIM_SPEED</td><td>length<td>Length of the animation frame as defined in the apendix. This is a very expensive callback and try to
+avoid it, if possible, by using identical animation frames.</td></tr>
+<tr><td>INDTILE_CB_CARGO_AMOUNT_ACCEPT</td><td>special<td>accepted cargo amounts in 1/8. Bits 0...3: 1st cargo, bits 4 ... 7: 2nd cargo, bits 8 ... 11: 3rd cargo</td></tr>
+<tr><td>INDTILE_CB_CARGO_TYPE_ACCEPT</td><td>special<td>accepted cargo types as entry in the CTT. Bits 0...4: 1st cargo, bits 5 ... 9: 2nd cargo, bits 10 ... 14: 3rd cargo</td></tr>
+<tr><td>INDTILE_CB_SLOPE_IS_SUITABLE</td><td><td>decide whether the location is suitable for the tile (for build checks of the industry)</td></tr>
+<tr><td>INDTILE_CB_FOUNDATIONS</td><td>CB_RESULT_XXX<td>with XXX=[FOUNDATIONS | NO_FOUNDATIONS]</td></tr>
+<tr><td>INDTILE_CB_AUTOSLOPE</td><td>CB_RESULT_XXX<td>with XXX=[AUTOSLOPE | NO_AUTOSLOPE]</td></tr>
+</table>
+
+<h3><a name="industrytiles-animation-control">Animation control callback triggers</a></h3>
+<table class="t">
+<tr><th>Trigger</th><th>Meaning</th></tr>
+<tr><td>INDTILE_TRIGGER_CONSTRUCTION_STATE</td><td>the construction state changes </td></tr>
+<tr><td>INDTILE_TRIGGER_TILE_LOOP</td><td>the tile is processed in the periodic processing loop </td></tr>
+<tr><td>INDTILE_TRIGGER_INDUSTRY_LOOP</td><td>the industry of the tile is processed in the periodic processing loop (synchronized animation) </td></tr>
+<tr><td>INDTILE_TRIGGER_INDUSTRY_RECEIVED_CARGO</td><td>the industry of the tile receives input cargo from a station </td></tr>
+<tr><td>INDTILE_TRIGGER_INDUSTRY_DISTRIBUTES_CARGO</td><td>the industry distributes its output cargo to one of the stations nearby</td></tr>
+</table>
+
+<h2><a name="industries-property">Industry properties</a></h2>
+Industry properties.
+Default industry type numbers can be found at <a href="refs.html#refs-default-industries">default industries</a>.
+<p>
+<table class="t">
+<tr><th>property</th><th>value range</th><th>comment</th></tr>
+<tr><td>substitute</td><td>industry type</td><td>Number of the original industry type that replaces this one, should it not be available for some reason (e.g. missing NewGRF).
+This <em>must</em> be the first property to be set, before any other properties or graphics. All properties of the old type are copied to your new industry.</td></tr>
+<tr><td>override</td><td>industry type</td><td>Number of the original industry type overridden. This will cause other grfs / industries to consider your industry type the same as the old type. Only set this property if your type is (more or less) the same as the old type.</td></tr>
+<tr><td>layouts</td><td>Array of tilelayouts</td><td>See <a href="nml-language.html#block-tilelayout">Tilelayout</a> syntax.</td></tr>
+<tr><td>life_type</td><td>One of IND_LIFE_TYPE_XXX, XXX = BLACK_HOLE | EXTRACTIVE | ORGANIC | PROCESSING</td><td>The generic type of industry. This determines the production
+changes that occur by default (when not using the callback). Examples are respectively power plants, coal mines, forests en steel mills.</td></tr>
+<tr><td>closure_msg</td><td>string</td><td>Message displayed when the industry announces closure.</td></tr>
+<tr><td>prod_increase_msg</td><td>string</td><td>Message displayed when industry increases production.</td></tr>
+<tr><td>prod_decrease_msg</td><td>string</td><td>Message displayed when industry decreases production.</td></tr>
+<tr><td>fund_cost_multiplier</td><td>0..255</td><td>Fund cost multiplier. Note that in OpenTTD the unmodified base cost is 8x higher for building (not prospecting) raw (=extractive / organic, see life_type) industries.</td></tr>
+<tr><td>prod_cargo_types</td><td>array of up to 2 ints</td><td>Types of cargo produced. Use the cargotype(&lt;label&gt;) built-in function to specify a label from the cargotable.</td></tr>
+<tr><td>accept_cargo_types</td> <td>array of up to 3 ints</td><td>Types of cargo accepted. Use the cargotype(&lt;label&gt;) built-in function to specify a label from the cargotable</td></tr>
+<tr><td>prod_multiplier</td><td>array of up to 2 ints (0..255)</td><td>Amount of each output cargo to produce every 256 ticks (8 or 9 times a month)</td></tr>
+<tr><td>min_cargo_distr</td><td>0..255</td><td>Minimal amount of cargo before transporting to stations.</td></tr>
+<tr><td>random_sound_effects</td><td>array of ints</td><td>Sound effect numbers that are played some times.</td></tr>
+<tr><td>conflicting_ind_types</td><td>array of up to 3x industry_type(IND_TYPE_OLD | IND_TYPE_NEW, id)</td><td>Three industry types that should not be nearby. Use the builtin-function industry_type(..)
+to define either an old industry (using the global ID) or a new industry from your grf (using the grf-local ID).</td></tr>
+<tr><td>prob_random</td><td>0..10</td><td>Probability of occurring while generating initial industries.</td></tr>
+<tr><td>prob_in_game</td><td>0..10</td><td>Probability of occurring while creating industries during the game.</td></tr>
+<tr><td>map_colour</td><td>0..255</td><td>Colour index from the <a href="nml-language.html#graphic-files">DOS palette</a> to use on the minimap for this industry.</td></tr>
+<tr><td>spec_flags</td><td>bitmask(flags)</td><td>for flag values see <a href="#industry-special-flags">Industry special flags</a></td></tr>
+<tr><td>new_ind_msg</td><td>string</td><td>Message displayed when industry gets built during game play.</td></tr>
+<tr><td>input_multiplier_1</td><td>array of up to 2 floats (0..255)</td><td>Output cargo multiplication factors for getting a unit of the first accepted cargo.</td></tr>
+<tr><td>input_multiplier_2</td><td>array of up to 2 floats (0..255)</td><td>Output cargo multiplication factors for getting a unit of the second accepted cargo.</td></tr>
+<tr><td>input_multiplier_3</td><td>array of up to 2 floats (0..255)</td><td>Output cargo multiplication factors for getting a unit of the third accepted cargo.</td></tr>
+<tr><td>name</td><td>string</td><td>Name of the industry</td></tr>
+<tr><td>prospect_chance</td><td>Fraction between 0 and 1</td><td>Chance of successful prospecting.</td></tr>
+<tr><td>callback_flags</td><td>bitmask(flags)</td><td>for flag values see <a href="#industry-callback-flags">Industry callback flags</a></td></tr>
+<tr><td>remove_cost_multiplier</td><td>int</td><td>Cost multiplier for removing the industry (currently only possible with magic bulldozer).</td></tr>
+<tr><td>nearby_station_name</td><td>string</td><td>Default additional name for a nearby station</td></tr>
+</table>
+
+<h3><a name="industry-callback-flags">Industry callback flags</a></h3>
+<table class="t">
+<tr><th>callback and callback flag<br>
+IND_CB_XXX and IND_CBF_XXX</th><th>return values</th><th>meaning</tr>
+<tr><td>IND_CBF_AVAILABILITY</td><td>CB_RESULT_IND_ALLOW<br>CB_RESULT_IND_DISALLOW</td><td>decide upon availability of the industry type.<br>
+extra_callback_info_2 allows to get information on how the industry is being built:<br>
+0: during map generation<br>1: random generation ingame<br>2: user trying to fund or prospect the industry</td></tr>
+<tr><td>IND_CBF_PROD_CB_CARGO_ARRIVE<br>(no callback, use <a href="nml-language.html#block-produce">produce block</a>)</td><td>n/a (use produce block)</td>
+        <td>handle production when cargo is delivered. See produce block</td></tr>
+<tr><td>IND_CBF_PROD_CB_256_TICKS<br>(no callback, use <a href="nml-language.html#block-produce">produce block</a>)</td><td>n/a (use produce block)</td>
+        <td>handle production every 256 ticks. See produce block</td></tr>
+<tr><td>IND_CBF_LOCATION_CHECK</td><td>string<br>
+CB_RESULT_IND_ALLOW_LOCATION<br>
+CB_RESULT_IND_DISALLOW_UNSUITABLE<br>
+CB_RESULT_IND_DISALLOW_ONLY_RAINFOREST<br>
+CB_RESULT_IND_DISALLOW_ONLY_DESERT</td><td>handle check for permissible build locations<br>
+extra_callback_info_2 allows to get information on how the industry is being built:<br>
+0: during map generation<br>1: random generation ingame<br>2: user trying to fund the industry<br>
+3: user trying to prospect the industry</td></tr>
+<tr><td>IND_CBF_RANDOM_PROD_CHANGE</td><td>see monthly production changes below</td><td>handle random production changes</td></tr>
+<tr><td>IND_CBF_MONTHLY_PROD_CHANGE</td><td>CB_RESULT_IND_PROD_NO_CHANGE<br>
+CB_RESULT_IND_PROD_HALF<br>
+CB_RESULT_IND_PROD_DOUBLE<br>
+CB_RESULT_IND_PROD_CLOSE<br>
+CB_RESULT_IND_PROD_RANDOM<br>
+CB_RESULT_IND_PROD_DIVIDE_BY_4<br>
+CB_RESULT_IND_PROD_DIVIDE_BY_8<br>
+CB_RESULT_IND_PROD_DIVIDE_BY_16<br>
+CB_RESULT_IND_PROD_DIVIDE_BY_32<br>
+CB_RESULT_IND_PROD_MULTIPLY_BY_4<br>
+CB_RESULT_IND_PROD_MULTIPLY_BY_8<br>
+CB_RESULT_IND_PROD_MULTIPLY_BY_16<br>
+CB_RESULT_IND_PROD_MULTIPLY_BY_32<br>
+CB_RESULT_IND_PROD_DECREMENT_BY_1<br>
+CB_RESULT_IND_PROD_INCREMENT_BY_1<br>
+CB_RESULT_IND_PROD_SET_BY_0x100<br>
+</td><td>handle monthly production changes</td></tr>
+<tr><td>IND_CBF_CARGO_SUBTYPE_DISPLAY</td><td>string</td><td>decide on displayed cargo subtypes</td></tr>
+<tr><td>IND_CBF_EXTRA_TEXT_FUND</td><td>string</td><td>decide on extra text displayed in industry funding window</td></tr>
+<tr><td>IND_CBF_EXTRA_TEXT_INDUSTRY</td><td>string</td><td>decide on extra text in the industry window</td></tr>
+<tr><td>IND_CBF_CONTROL_SPECIAL</td><td>CB_RESULT_IND_DO_NOT_USE_SPECIAL<br>CB_RESULT_IND_USE_SPECIAL</td><td>decide whether the special defined in spec_flags shall be used or not</td></tr>
+<tr><td>IND_CBF_STOP_ACCEPT_CARGO</td><td></td><td>decide on cargo acceptance</td></tr>
+<tr><td>IND_CBF_COLOUR</td><td>0...15</td><td>decide on industry colour. See also <a href="refs.html#refs-palettes">the palettes</a>. DARK_BLUE (#775) corresponds to the colour 0.</td></tr>
+<tr><td>IND_CBF_CARGO_INPUT</td><td>cargo label</td><td>decide on accepted cargo types. extra_callback_info_1 gives the input cargo number.
+Return 0xFF for any other value than 0, 1 or 2 for extra_callback_info_1.</td></tr>
+<tr><td>IND_CBF_CARGO_OUTPUT</td><td>cargo label</td><td>decide on output cargo types. extra_callback_info_1 gives the output cargo number.
+Return 0xFF for any other value than 0 or 1 for extra_callback_info_1.</td></tr>
+</table>
+
+<h3><a name="industry-special-flags">Industry special flags</a></h3>
+<table class="t">
+<tr><th>flag</th><th>meaning</th></tr>
+<tr><td>IND_FLAG_PLANT_FIELDS_PERIODICALLY</td><td>The industry periodically plants fields around itself (temperate and arctic farms) </td></tr>
+<tr><td>IND_FLAG_CUT_TREES</td><td>The industry cuts trees around itself and produces its first output cargo from them (lumber mill) </td></tr>
+<tr><td>IND_FLAG_BUILT_ON_WATER</td><td>The industry is built on water (oil rig) </td></tr>
+<tr><td>IND_FLAG_ONLY_IN_LARGE_TOWNS</td><td>The industry can only be built in towns (i.e. it has to replace houses) with population larger than 1200 (temperate bank) </td></tr>
+<tr><td>IND_FLAG_ONLY_IN_TOWNS</td><td>The industry can only be built in towns (i.e. it has to replace houses) (arctic and tropic banks, water tower) </td></tr>
+<tr><td>IND_FLAG_BUILT_NEAR_TOWN</td><td>The industry is always built near towns (i.e. near town sign; additionally the industry is allowed to replace houses) (toy shop) </td></tr>
+<tr><td>IND_FLAG_PLANT_FIELDS_WHEN_BUILT</td><td>Fields are planted around the industry when it's built (all farms) </td></tr>
+<tr><td>IND_FLAG_NO_PRODUCTION_INCREASE</td><td>The industry cannot increase its production on the temperate climate (oil wells) </td></tr>
+<tr><td>IND_FLAG_BUILT_ONLY_BEFORE_1950</td><td>The industry is built only before 1950 (oil wells) </td></tr>
+<tr><td>IND_FLAG_BUILT_ONLY_AFTER_1960</td><td>The industry is built only after 1960 (oil rig) </td></tr>
+<tr><td>IND_FLAG_AI_CREATES_AIR_AND_SHIP_ROUTES</td><td>AI players will attempt to establish air and ship routes going to this industry (oil rig) </td></tr>
+<tr><td>IND_FLAG_MILITARY_AIRPLANE_CAN_EXPLODE</td><td>The industry can be exploded by a military airplane (oil refinery) </td></tr>
+<tr><td>IND_FLAG_MILITARY_HELICOPTER_CAN_EXPLODE</td><td>The industry can be exploded by a military helicopter (factory) </td></tr>
+<tr><td>IND_FLAG_CAN_CAUSE_SUBSIDENCE</td><td>The industry can cause a subsidence (coal mine) </td></tr>
+<tr><td>IND_FLAG_AUTOMATIC_PRODUCTION_MULTIPLIER</td><td>Automatic production multiplier handing (No industry has this bit set by default.). </td></tr>
+<tr><td>IND_FLAG_RANDOM_BITS_IN_PRODUCTION_CALLBACK</td><td>The production callback needs random bits in var. 10 (No industry has this bit set by default.) </td></tr>
+<tr><td>IND_FLAG_DO_NOT_FORCE_INSTANCE_AT_MAP_GENERATION</td><td>Do not force one instance of this type to appear during initial map generation (No industry has this bit set by default.) </td></tr>
+<tr><td>IND_FLAG_ALLOW_CLOSING_LAST_INSTANCE</td><td>Allow closing down the last instance of this type (No industry has this bit set by default.)</td></tr>
+</table>
+
+</body>
+</html>
+

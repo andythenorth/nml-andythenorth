@@ -1,0 +1,15 @@
+^build/
+
+syntax: glob
+*.pyc
+regression/output/
+regression/output2/
+regression/nml_output/
+
+parser.out
+parsetab.py
+
+nml/__version__.py
+
+MANIFEST
+dist/*
