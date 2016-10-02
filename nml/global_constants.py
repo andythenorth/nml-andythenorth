@@ -419,6 +419,10 @@ constant_numbers = {
     'RAILTYPE_FLAG_CATENARY'          : 0,
     'RAILTYPE_FLAG_NO_LEVEL_CROSSING' : 1, # for OpenTTD > r20049
 
+    #roadtype flags
+    'ROADTYPE_FLAG_CATENARY'          : 0,
+    'ROADTYPE_FLAG_NO_LEVEL_CROSSING' : 1,
+
     #type of default station graphics used for a railtype
     'RAILTYPE_STATION_NORMAL'   : 0,
     'RAILTYPE_STATION_MONORAIL' : 1,
