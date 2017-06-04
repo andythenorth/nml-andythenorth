@@ -114,22 +114,26 @@ constant_numbers = {
     'TRAIN_FLAG_FLIP' : 3,
     'TRAIN_FLAG_AUTOREFIT': 4,
     'TRAIN_FLAG_NO_BREAKDOWN_SMOKE': 6,
+    'TRAIN_FLAG_SPRITE_STACK': 7,
 
     #roadveh misc flags
     'ROADVEH_FLAG_TRAM' : 0,
     'ROADVEH_FLAG_2CC'  : 1,
     'ROADVEH_FLAG_AUTOREFIT': 4,
     'ROADVEH_FLAG_NO_BREAKDOWN_SMOKE': 6,
+    'ROADVEH_FLAG_SPRITE_STACK': 7,
 
     #ship misc flags
     'SHIP_FLAG_2CC'  : 1,
     'SHIP_FLAG_AUTOREFIT': 4,
     'SHIP_FLAG_NO_BREAKDOWN_SMOKE': 6,
+    'SHIP_FLAG_SPRITE_STACK': 7,
 
     #aircrafts misc flags
     'AIRCRAFT_FLAG_2CC'  : 1,
     'AIRCRAFT_FLAG_AUTOREFIT': 4,
     'AIRCRAFT_FLAG_NO_BREAKDOWN_SMOKE': 6,
+    'AIRCRAFT_FLAG_SPRITE_STACK': 7,
 
     #for those, who can't tell the difference between a train and an aircraft:
     'VEHICLE_FLAG_2CC' : 1,
@@ -171,6 +175,9 @@ constant_numbers = {
     'CB_RESULT_REFIT_COST_MASK'            : 0x3FFF,
 
     'CB_RESULT_NO_SOUND'                   : 0x7EFF, # Never a valid sound id
+
+    # Callback results in registers
+    'CB_FLAG_MORE_SPRITES'                 : 0x80000000,
 
     # 1-based, not 0-based
     'SOUND_EVENT_START'                    : 1,
@@ -352,6 +359,7 @@ constant_numbers = {
     'CB_RESULT_IND_PROBABILITY_FROM_PROPERTY'  : 0x0100,
 
     'CB_RESULT_NO_TEXT'                 : 0x400,
+    'CB_RESULT_IND_NO_TEXT_NO_AMOUNT'   : 0x401,
 
     'CB_RESULT_LOCATION_ALLOW'                        : 0x400,
     'CB_RESULT_LOCATION_DISALLOW'                     : 0x401,
@@ -725,6 +733,7 @@ constant_numbers = {
     'PALETTE_TILE_RED_PULSATING'            : 771,
     'PALETTE_SEL_TILE_RED'                  : 772,
     'PALETTE_SEL_TILE_BLUE'                 : 773,
+    'PALETTE_IDENTITY'                      : 775,
     'PALETTE_CC_FIRST'                      : 775,
     'PALETTE_CC_DARK_BLUE'                  : 775, # = first
     'PALETTE_CC_PALE_GREEN'                 : 776,
