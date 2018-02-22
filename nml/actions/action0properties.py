@@ -1070,6 +1070,7 @@ properties[0x12] = {
     'name'                     : {'size': 2, 'num': 0x1B, 'string': 0xDC},
     'maintenance_cost'         : {'size': 2, 'num': 0x1C},
     'alternative_roadtype_list': {'custom_function': lambda x: roadtype_list(x, 0x1D)},
+    'town_road_choice_weight'  : {'size': 1, 'num': 0x1E},
 }
 
 #
